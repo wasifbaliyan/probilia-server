@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const generateAuthToken = require("../utils/generateAuthToken");
+const verifyAuthentication = require("../middlewares/verify-auth.middleware");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
@@ -68,6 +69,25 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "Something went wrong!",
+      error: error.message,
+    });
+  }
+});
+
+router.get("/self", verifyAuthentication, async (req, res) => {
+  try {
+    const user = req.user;
+    res.status(200).json({
+      response: {
+        email: user.email,
+        name: user.name,
+      },
+      message: "Successfully fetched user info.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong.",
       error: error.message,
     });
   }
