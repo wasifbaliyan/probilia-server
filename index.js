@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const connectToDB = require("./db/db");
 const auth = require("./routes/auth.routes");
+const products = require("./routes/products.routes");
 const app = express();
 
 connectToDB(process.env.DB_URL);
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", auth);
+app.use("/api/products", products);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Listening at port : ${port}`));
