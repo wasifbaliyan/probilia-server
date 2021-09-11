@@ -5,6 +5,7 @@ const connectToDB = require("./db/db");
 const auth = require("./routes/auth.routes");
 const products = require("./routes/products.routes");
 const addresses = require("./routes/addresses.routes");
+const wishlists = require("./routes/wishlists.routes");
 const verifyAuthentication = require("./middlewares/verify-auth.middleware");
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/products", products);
 app.use(verifyAuthentication);
 
 app.use("/api/addresses", addresses);
+app.use("/api/wishlists", wishlists);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Listening at port : ${port}`));
