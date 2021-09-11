@@ -7,6 +7,7 @@ const products = require("./routes/products.routes");
 const addresses = require("./routes/addresses.routes");
 const wishlist = require("./routes/wishlist.routes");
 const cart = require("./routes/cart.routes");
+const orders = require("./routes/orders.routes");
 const verifyAuthentication = require("./middlewares/verify-auth.middleware");
 const app = express();
 
@@ -36,6 +37,7 @@ app.use(verifyAuthentication);
 app.use("/api/addresses", addresses);
 app.use("/api/wishlist", wishlist);
 app.use("/api/cart", cart);
+app.use("/api/orders", orders);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Listening at port : ${port}`));
