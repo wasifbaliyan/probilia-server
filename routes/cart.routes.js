@@ -1,19 +1,18 @@
 const express = require("express");
-const Wishlist = require("../models/wishlist.model");
+const Cart = require("../models/cart.model");
 const Product = require("../models/product.model");
-const wishlistMiddleware = require("../middlewares/wishlist.middleware");
+const cartMiddleware = require("../middlewares/cart.middleware");
+
 const router = express.Router();
 
-//  wishlistMiddleware();
-
-router.get("/", wishlistMiddleware, async (req, res) => {
+router.get("/", cartMiddleware, async (req, res) => {
   try {
-    const wishlist = req.wishlist;
+    let cart = req.cart;
 
     res.status(200).json({
-      message: "Wishlist fetched successfully",
+      message: "Cart fetched successfully",
       response: {
-        wishlist,
+        cart,
       },
     });
   } catch (error) {
@@ -25,10 +24,11 @@ router.get("/", wishlistMiddleware, async (req, res) => {
   }
 });
 
-router.post("/", wishlistMiddleware, async (req, res) => {
+router.post("/", cartMiddleware, async (req, res) => {
   try {
     const id = req.body.productId;
-    const wishlist = req.wishlist;
+    const item = req.body.item;
+    let cart = req.cart;
 
     const product = await Product.findById({ _id: id });
     if (!product) {
@@ -37,18 +37,22 @@ router.post("/", wishlistMiddleware, async (req, res) => {
       });
     }
 
-    const foundIndex = wishlist.products.findIndex((item) => item._id == id);
+    const foundIndex = cart.products.findIndex(
+      (item) => item.productId._id == id
+    );
     if (foundIndex !== -1) {
       return res.status(404).json({
         message: "Product already exists.",
       });
     }
-    wishlist.products.push(product);
-    await wishlist.save();
+
+    cart.products.push({ ...product, item, productId: id });
+    await cart.save();
+    console.log();
     res.status(201).json({
-      message: "Wishlist item added successfully.",
+      message: "cart item added successfully.",
       response: {
-        wishlist,
+        cart,
       },
     });
   } catch (error) {
@@ -60,26 +64,26 @@ router.post("/", wishlistMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/", wishlistMiddleware, async (req, res) => {
+router.delete("/", cartMiddleware, async (req, res) => {
   try {
     const productId = req.body.productId;
-    const wishlist = req.wishlist;
-    const foundIndex = await wishlist.products.findIndex(
-      (item) => item._id == productId
+    const cart = req.cart;
+    const foundIndex = await cart.products.findIndex(
+      (item) => item.productId._id == productId
     );
     if (foundIndex === -1) {
       return res.status(404).json({
-        message: "Product does not exist in the wishlist.",
+        message: "Product does not exist in the cart.",
       });
     }
 
-    wishlist.products.splice(foundIndex, 1);
-    await wishlist.save();
+    cart.products.splice(foundIndex, 1);
+    await cart.save();
 
     res.status(200).json({
-      message: "Wishlist item removed successfully.",
+      message: "cart item removed successfully.",
       response: {
-        wishlist,
+        cart,
       },
     });
   } catch (error) {
