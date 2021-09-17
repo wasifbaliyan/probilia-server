@@ -26,6 +26,7 @@ router.post("/register", async (req, res) => {
         message: "User created successfully.",
         response: {
           name: user.name,
+          email: user.email,
           token,
         },
       });

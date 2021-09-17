@@ -11,7 +11,7 @@ const verifyAuthentication = async (req, res, next) => {
     const user = await User.findById(decoded._id);
     if (!user) {
       return res.status(401).json({
-        message: "You're not authorized to acess this information.",
+        message: "You're not authorized to access this information.",
       });
     }
 
@@ -20,7 +20,7 @@ const verifyAuthentication = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     res.status(401).json({
-      message: "You're not authorized to acess this information.",
+      message: "You're not authorized to access this information.",
       error: error.message,
     });
   }
