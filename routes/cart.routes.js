@@ -64,9 +64,9 @@ router.post("/", cartMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/", cartMiddleware, async (req, res) => {
+router.delete("/:productId", cartMiddleware, async (req, res) => {
   try {
-    const productId = req.body.productId;
+    const productId = req.params.productId;
     const cart = req.cart;
     const foundIndex = await cart.products.findIndex(
       (item) => item.productId._id == productId

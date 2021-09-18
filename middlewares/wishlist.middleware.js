@@ -4,7 +4,6 @@ const wishlistMiddleware = async (req, res, next) => {
     const userId = req.user._id;
     let wishlist = await Wishlist.findOne({ userId }).populate({
       path: "products",
-      select: "_id name",
     });
     if (!wishlist) {
       wishlist = await new Wishlist({ userId });

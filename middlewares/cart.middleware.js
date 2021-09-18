@@ -5,7 +5,6 @@ const cartMiddleware = async (req, res, next) => {
     const userId = req.user._id;
     let cart = await Cart.findOne({ userId }).populate({
       path: "products.productId",
-      select: "name price",
     });
     if (!cart) {
       cart = await new Cart({ userId });

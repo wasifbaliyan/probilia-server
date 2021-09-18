@@ -58,9 +58,9 @@ router.post("/", wishlistMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/", wishlistMiddleware, async (req, res) => {
+router.delete("/:productId", wishlistMiddleware, async (req, res) => {
   try {
-    const productId = req.body.productId;
+    const productId = req.params.productId;
     const wishlist = req.wishlist;
     const foundIndex = await wishlist.products.findIndex(
       (item) => item._id == productId
