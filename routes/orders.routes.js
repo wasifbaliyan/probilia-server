@@ -7,7 +7,13 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const userId = req.user._id;
-    const orders = await Order.find({ userId });
+    const orders = await Order.find({ userId })
+      .populate({
+        path: "products.productId",
+      })
+      .populate({
+        path: "addressId",
+      });
     if (!orders) {
       return res.status(404).json({ message: "Something went wrong." });
     }
@@ -28,7 +34,7 @@ router.post("/", async (req, res) => {
   try {
     const userId = req.user._id;
     const orderData = req.body;
-    const order = await new Order(orderData);
+    const order = await new Order({ ...orderData, userId });
     await order.save();
 
     const cart = await Cart.findOne({ userId });

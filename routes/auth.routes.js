@@ -79,10 +79,7 @@ router.get("/self", verifyAuthentication, async (req, res) => {
   try {
     const user = req.user;
     res.status(200).json({
-      response: {
-        email: user.email,
-        name: user.name,
-      },
+      response: user,
       message: "Successfully fetched user info.",
     });
   } catch (error) {

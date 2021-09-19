@@ -102,7 +102,7 @@ router.delete("/:id", async (req, res) => {
       _id: req.params.id,
     });
 
-    res.status(204).json({
+    res.status(202).json({
       message: "Address removed successfully.",
       response: {
         removedAddress,
