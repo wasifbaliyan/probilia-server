@@ -16,7 +16,7 @@ An Ecommerce platform for furnitures server built using Node, Express, MongoDB, 
 
 ## Demo
 
-Insert gif or link to demo
+[Probilia Live](https://probilia.netlify.app/)
 
 ## Run Locally
 
