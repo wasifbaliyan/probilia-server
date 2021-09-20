@@ -1,5 +1,5 @@
 {
-  "name": "mobilia_server",
+  "name": "probilia_server",
   "version": "1.0.0",
   "description": "Nodejs backend for mobilia",
   "main": "index.js",
@@ -10,7 +10,8 @@
   },
   "keywords": [
     "Ecommerce",
-    "furniture"
+    "furniture",
+    "probilia"
   ],
   "author": "Wasif Baliyan",
   "license": "ISC",
@@ -24,5 +25,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
+  },
+  "engines": {
+    "node": "v14.16.1"
   }
 }
