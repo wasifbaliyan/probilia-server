@@ -41,14 +41,19 @@ router.post("/", cartMiddleware, async (req, res) => {
       (item) => item.productId._id == id
     );
     if (foundIndex !== -1) {
-      return res.status(404).json({
-        message: "Product already exists.",
+      cart.products[foundIndex].item++;
+      await cart.products[foundIndex].save();
+      await cart.save();
+      return res.status(201).json({
+        message: "cart item added successfully.",
+        response: {
+          cart,
+        },
       });
     }
 
     cart.products.push({ ...product, item, productId: id });
     await cart.save();
-    console.log();
     res.status(201).json({
       message: "cart item added successfully.",
       response: {
@@ -76,9 +81,14 @@ router.delete("/:productId", cartMiddleware, async (req, res) => {
         message: "Product does not exist in the cart.",
       });
     }
-
-    cart.products.splice(foundIndex, 1);
-    await cart.save();
+    if (cart.products[foundIndex].item === 1) {
+      cart.products.splice(foundIndex, 1);
+      await cart.save();
+    } else {
+      cart.products[foundIndex].item--;
+      await cart.products[foundIndex].save();
+      await cart.save();
+    }
 
     res.status(200).json({
       message: "cart item removed successfully.",
