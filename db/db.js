@@ -6,7 +6,7 @@ async function connectToDB(url) {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.info("Connected to Mobilia DB");
+    console.info("Connected to Probilia DB");
   } catch (error) {
     console.error("Something went wrong", error);
   }
