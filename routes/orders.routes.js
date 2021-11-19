@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
   try {
     const userId = req.user._id;
     const orders = await Order.find({ userId })
+      .sort({ createdAt: -1 })
       .populate({
         path: "products.productId",
       })
